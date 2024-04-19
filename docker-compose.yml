@@ -13,7 +13,7 @@ services:
     volumes:
       - db:/data/db
 
-  app:
+  server:
     depends_on:
       - mongo_db
     build: ../SocsakBackend
@@ -31,6 +31,14 @@ services:
       - .m2:/root/.m2
     stdin_open: true
     tty: true
+
+  client:
+    extends:
+      file: ../SocsakFrontend/docker-compose.yml
+      service: client
+    env_file: ./.env
+    ports:
+      - $SVE_LOCAL_PORT:$SVE_DOCKER_PORT
 
 volumes:
   db:
