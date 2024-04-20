@@ -37,8 +37,6 @@ services:
       file: ../SocsakFrontend/docker-compose.yml
       service: client
     env_file: ./.env
-    ports:
-      - $SVE_LOCAL_PORT:$SVE_DOCKER_PORT
 
 volumes:
   db:
