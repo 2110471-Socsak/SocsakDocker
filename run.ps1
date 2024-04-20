@@ -4,7 +4,9 @@ $hostIPv4 = (Get-NetIPAddress -InterfaceIndex $wifiInterface.ifIndex -AddressFam
 
 # Set environment variable with host's IPv4 address
 $env:HOST_IPV4 = $hostIPv4
-Write-Host "HOST_IPV4=$env:HOST_IPV4"
+Write-Host "HOST_IPV4 = $env:HOST_IPV4"
 
 docker-compose build
 docker-compose up
+
+docker rmi $(docker images -f dangling=true -q)
