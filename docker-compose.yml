@@ -16,23 +16,14 @@ services:
   server:
     depends_on:
       - mongo_db
-    build: ../SocsakBackend
-    restart: on-failure
+    extends:
+      file: ../SocsakBackend/docker-compose.yml
+      service: server
     env_file: ./.env
-    ports:
-      - $SPRING_LOCAL_PORT:$SPRING_DOCKER_PORT
-      - $SPRINT_LOCAL_SOCKET_PORT:$SPRING_DOCKER_SOCKET_PORT
-    environment:
-      SPRING_APPLICATION_JSON: '{
-          "spring.data.mongodb.uri" : "mongodb://$MONGODB_USER:$MONGODB_PASSWORD@mongo_db:$MONGODB_DOCKER_PORT/$MONGODB_DATABASE?authSource=admin"
-        }'
-      jwt-secret: $JWT_SECRET
-    volumes:
-      - .m2:/root/.m2
-    stdin_open: true
-    tty: true
 
   client:
+    depends_on:
+      - server
     extends:
       file: ../SocsakFrontend/docker-compose.yml
       service: client
